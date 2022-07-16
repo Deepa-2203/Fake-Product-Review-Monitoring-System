@@ -6,24 +6,24 @@ session_start();
 <?php
 
 $uname=$_SESSION['login_user'];
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
-$user = mysql_query("SELECT * FROM `users` WHERE `uname`='$uname'");
-$u= mysql_fetch_array($user);
+mysqli_select_db($con,"productrate");
+$user = mysqli_query("SELECT * FROM `users` WHERE `uname`='$uname'");
+$u= mysqli_fetch_array($user);
 $uID=$u['uID'];
 
-$comm = mysql_query("SELECT * FROM `comment` WHERE `uID`='$uID' ORDER BY `time` DESC");
+$comm = mysqli_query("SELECT * FROM `comment` WHERE `uID`='$uID' ORDER BY `time` DESC");
 
 
 
 
 echo '<hr>';
-while($row= mysql_fetch_array($comm))
+while($row= mysqli_fetch_array($comm))
  {
   echo '<table width="100%">';
   echo "<tbody>";
@@ -64,7 +64,8 @@ while($row= mysql_fetch_array($comm))
   echo '</table>';
   echo "<hr>";
 }
-sql_close($con);
+mysqli_close($con);
+
 ?>
 </body>
 

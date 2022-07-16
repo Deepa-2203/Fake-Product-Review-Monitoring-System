@@ -3,16 +3,16 @@ $mID=$_GET["mID"];
 ?>
 
 <?php
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
-$result = mysql_query("SELECT * FROM `products` WHERE `productID` = $mID");
+mysqli_select_db( $con,"productrate");
+$result = mysqli_query("SELECT * FROM `products` WHERE `productID` = $mID");
 echo '<form  method = "POST" action="update.php?id='.$mID.'" >';
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
  {
     
        echo 'product name:<input type ="text" name = "productname" value="'.$row['productName'].'"/><br>';
@@ -37,5 +37,5 @@ while($row = mysql_fetch_array($result))
  echo '<button type="submit" >update</button>
 		</form>';
 
-mysql_close($con)
+mysqli_close($con)
 ?>

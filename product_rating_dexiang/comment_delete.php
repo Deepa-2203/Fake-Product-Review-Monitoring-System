@@ -5,31 +5,31 @@ $cID=$_GET["cID"];
 <body>
 <?php
 echo $cID;
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
+mysqli_select_db($con,"productrate");
 
 
-$com = mysql_query("SELECT * FROM `comment` WHERE `comID` ='$cID'");
-$row = mysql_fetch_array($com);
+$com = mysqli_query("SELECT * FROM `comment` WHERE `comID` ='$cID'");
+$row = mysqli_fetch_array($com);
 $mID = $row['productID'];
-$query = mysql_query("DELETE FROM `comment` WHERE `comID` = $cID");
-$comments = mysql_query("SELECT * FROM `comment` WHERE `productID` ='$mID'");
-    while($row4 = mysql_fetch_array($comments)){
+$query = mysqli_query("DELETE FROM `comment` WHERE `comID` = $cID");
+$comments = mysqli_query("SELECT * FROM `comment` WHERE `productID` ='$mID'");
+    while($row4 = mysqli_fetch_array($comments)){
     $total+=$row4['ratings'];
     $round +=1;
     }
     //echo $total;
 
   $new=$total*2/$round;
-  $mcate = mysql_query("UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
+  $mcate = mysqli_query("UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
 
 
-mysql_close($con);
+mysqli_close($con);
 ?>
 </body>
 </html>

@@ -20,22 +20,22 @@ session_start();
 	$username=$_POST['username'];
 	$psw=$_POST['psw'];
 	// Establishing Connection with Server by passing server_name, user_id and password as a parameter
-	$con = mysql_connect("localhost", "root", "root");
+	$con = mysqli_connect("localhost", "root", "Deepa@1223");
 	if (!$con)
   	{
-  		die('Could not connect: ' . mysql_error());
+  		die('Could not connect: ' . mysqli_connect_error());
   	}
 
 	// To protect MySQL injection for Security purpose
 	$username = stripslashes($username);
 	$psw = stripslashes($psw);
-	$username = mysql_real_escape_string($username);
-	$psw = mysql_real_escape_string($psw);
+	$username = mysqli_real_escape_string($username);
+	$psw = mysqli_real_escape_string($psw);
 	// Selecting Database
-	$db = mysql_select_db("productrate", $con);
+	$db = mysqli_select_db($con, "productrate");
 	// SQL query to fetch information of registerd users and finds user match.
-	$query = mysql_query("SELECT * FROM `users` WHERE `uname` = '$username' AND `psword` = '$psw'");
-	$rows = mysql_num_rows($query);
+	$query = mysqli_query($con, "SELECT * FROM `users` WHERE `uname` = '$username' AND `psword` = '$psw'");
+	$rows = mysqli_num_rows($query);
 	if ($rows == 1) {
 		#echo '<span> You already log in</span>';
 		
@@ -52,7 +52,7 @@ session_start();
   echo "</script>"; 
 		//echo "1";
 	}
-	mysql_close($con); // Closing Connection
+	mysqli_close($con); // Closing Connection
 	}
 ?>
 

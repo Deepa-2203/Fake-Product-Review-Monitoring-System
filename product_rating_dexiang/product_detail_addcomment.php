@@ -9,33 +9,34 @@ $mID = $_POST['mID'];
 <html>
 <body>
   <?php
-  $con = mysql_connect("localhost","root","root");
+  $con = mysqli_connect("localhost","root","Deepa@1223");
   if (!$con)
     {
-    die('Could not connect: ' . mysql_error());
+    die('Could not connect: ' . mysqli_error());
     }
    $round=0;
    $total=0;
-  mysql_select_db("productrate", $con);
-  $u = mysql_query("SELECT * FROM `users` WHERE `uname`='$uname'");
-  $row1 = mysql_fetch_array($u);
+  mysqli_select_db($con,"productrate");
+  $u = mysqli_query($con,"SELECT * FROM `users` WHERE `uname`='$uname'");
+  $row1 = mysqli_fetch_array($u);
   $uID = $row1['uID'];
   echo $mID;
   echo $ctext;
   echo $ctime;
   echo $rating;
 
-  $query = mysql_query("INSERT INTO `comment` (`uID`  ,`productID`,`content` ,`time`,`numlikes`,`ratings`)
+  $query = mysqli_query($con,"INSERT INTO `comment` (`uID`  ,`productID`,`content` ,`time`,`numlikes`,`ratings`)
   VALUES ('$uID', '$mID', '$ctext', '$ctime','$clike','$rating')");
-  if($query){$comments = mysql_query("SELECT * FROM `comment` WHERE `productID` ='$mID'");
-  while($row2 = mysql_fetch_array($comments)){
+  if($query){
+    $comments = mysqli_query($con,"SELECT * FROM `comment` WHERE `productID` ='$mID'");
+  while($row2 = mysqli_fetch_array($comments)){
     $total+=$row2['ratings'];
     $round +=1;
   }
   echo $total;
 
   $new=$total*2/$round;
-  $mcate = mysql_query("UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
+  $mcate = mysqli_query($con,"UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
 }
   
   //echo $new;

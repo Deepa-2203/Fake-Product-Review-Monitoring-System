@@ -1,23 +1,28 @@
 <?php 
-$mID=$_GET["mID"];
+if(isset($_GET['mID'])){
+  $mID = $_GET['mID']; 
+}else{
+  $mID = "123";
+}
+$total=0;
+$round=1;
 ?>
 <html>
 <body>
 <?php
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_connect_error());
   }
 
-mysql_select_db("productrate", $con);
+  mysqli_select_db($con, "productrate");
 
-$result = mysql_query("SELECT * FROM `products` WHERE `productID` = $mID");
-while($row = mysql_fetch_array($result))
+  $result = mysqli_query($con, "SELECT * FROM `products` WHERE `productID` = $mID");
+  
+  while($row = mysqli_fetch_array($result))
  {
-  
-  
-  echo '<h1>'.$row['productName'].'</h1>';
+   echo '<h1>'.$row['productName'].'</h1>';
    echo ' <div id="mainpic" >';
        $mID=$row['productID'];
        echo' <img  class="image" src="images/details/'.$row['productID'].'.jpg" />';
@@ -25,19 +30,19 @@ while($row = mysql_fetch_array($result))
     echo ' <div id="info">';
     #echo ' <p class="pl">Origin: <span class="attrs">'.$row['origin'].'</span></p><br/>';
     $mId=$row['productID'];
-    $company = mysql_query("SELECT * FROM `company` WHERE `companyID`IN(SELECT `companyID` FROM `mcompany`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
-    $row2= mysql_fetch_array($company);
-    $category = mysql_query("SELECT * FROM `category` WHERE `caID`IN(SELECT `caID` FROM `mcate`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
-    $row3= mysql_fetch_array($category);
-    $comments = mysql_query("SELECT * FROM `comment` WHERE `productID` ='$mID'");
-    while($row4 = mysql_fetch_array($comments)){
+    $company = mysqli_query($con, "SELECT * FROM `company` WHERE `companyID`IN(SELECT `companyID` FROM `mcompany`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
+    $row2= mysqli_fetch_array($company);
+    $category = mysqli_query($con,"SELECT * FROM `category` WHERE `caID`IN(SELECT `caID` FROM `mcate`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
+    $row3= mysqli_fetch_array($category);
+    $comments = mysqli_query($con,"SELECT * FROM `comment` WHERE `productID` ='$mID'");
+    while($row4 = mysqli_fetch_array($comments)){
     $total+=$row4['ratings'];
     $round +=1;
     }
     //echo $total;
 
   $new=$total*2/$round;
-  $mcate = mysql_query("UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
+  $mcate = mysqli_query($con, "UPDATE `products` SET `mrates` = '$new' where `productID`='$mID'");
     echo '<p class="pl"> Company: <span class="attrs"><a href="company_detail.html?id='.$row2['companyID'].'">'. $row2['aName'].'</a></span></p>';
        # echo ' <p class="pl">company: <span ><a class="attrs" href="/" rel="v:starring">Leonardo DiCaprio</a> </span></p><br/>';
        
@@ -51,15 +56,16 @@ while($row = mysql_fetch_array($result))
  echo '<table>';
 echo '<h2>COMMENTS</h2>';
 
-  $comment = mysql_query("SELECT * FROM `comment` WHERE `productID` = $mID");
-  while($row = mysql_fetch_array($comment))
+  $comment = mysqli_query($con,"SELECT * FROM `comment` WHERE `productID` = $mID");
+  while($row = mysqli_fetch_array($comment))
  {
   echo '<div class="comment">';
   echo '<h3><span class="comment-info"><p class="users">';
   #query user name to display
   $userID = $row['uID'];
-  $user = mysql_query("SELECT * FROM `users` WHERE `uID` = $userID");
-  $row1 = mysql_fetch_array($user);
+  
+  $user = mysqli_query($con, "SELECT * FROM `users` WHERE `uID` = '$userID'");
+  $row1 = mysqli_fetch_array($user);
   
     echo $row1['uname'].'</p>';
     echo ' <span class="times">';
@@ -78,7 +84,7 @@ echo '<h2>COMMENTS</h2>';
        <div class="comment">';
 
  }
-mysql_close($con);
+mysqli_close($con);
 ?>
 </body>
 </html>

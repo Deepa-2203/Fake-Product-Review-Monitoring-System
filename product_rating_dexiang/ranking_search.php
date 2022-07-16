@@ -5,18 +5,18 @@
 <body>
 <?php
 
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
+mysqli_select_db($con,"productrate");
 
-$product = mysql_query("SELECT * FROM `products` ORDER BY `mrates` DESC");
+$product = mysqli_query("SELECT * FROM `products` ORDER BY `mrates` DESC");
 
 echo '<hr>';
-while($row = mysql_fetch_array($product))
+while($row = mysqli_fetch_array($product))
  {
   echo '<table width="100%">';
   echo "<tbody>";
@@ -28,8 +28,8 @@ while($row = mysql_fetch_array($product))
 							<div class="mcontent">';
   echo '<a href="product_detail.html?id='.$row['productID'].'">'.$row['productName'].'</a>';
   $mId=$row['productID'];
-  $company = mysql_query("SELECT * FROM `company` WHERE `companyID`IN(SELECT `companyID` FROM `mcompany`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
-  $row2= mysql_fetch_array($company);
+  $company = mysqli_query("SELECT * FROM `company` WHERE `companyID`IN(SELECT `companyID` FROM `mcompany`AS a LEFT JOIN `products` as m ON a.`productID` =m.`productID` WHERE m.`productID`=$mId)");
+  $row2= mysqli_fetch_array($company);
   echo '<a href="company_detail.html?id='.$row2['companyID'].'">'.'<p class="info">company:'. $row2['aName'].'</p></a>';
   echo '<div class="rating">';
   if ($row['mrates']>0&&$row['mrates']<=1) {
@@ -74,7 +74,7 @@ while($row = mysql_fetch_array($product))
   echo '</table>';
   echo "<hr>";
 }
-sql_close($con);
+mysqli_close($con);
 ?>
 </body>
 

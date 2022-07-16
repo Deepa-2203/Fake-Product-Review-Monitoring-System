@@ -5,17 +5,17 @@ $aID=$_GET["aID"];
 <body>
 <?php
 
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
+mysqli_select_db($con,"productrate");
 
-$result = mysql_query("SELECT * FROM `company` WHERE `companyID` = $aID");
+$result = mysqli_query("SELECT * FROM `company` WHERE `companyID` = $aID");
 
-while($row = mysql_fetch_array($result))
+while($row = mysqli_fetch_array($result))
  {
   echo  '<h1>'.$row['aName'].'</h1>';
   echo "<hr>";
@@ -44,7 +44,7 @@ while($row = mysql_fetch_array($result))
 
 
 
-mysql_close($con);
+mysqli_close($con);
 ?>
 </body>
 </html>

@@ -5,19 +5,19 @@ $mID=$_GET["mID"];
 <body>
 <?php
 
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
+mysqli_select_db($con,"productrate");
 
-$query = mysql_query("DELETE FROM `products` WHERE `productID` = $mID");
+$query = mysqli_query("DELETE FROM `products` WHERE `productID` = $mID");
 echo 'You have deleted this product';
 echo '<br><a href="Admin.html">back</a>';
 
-mysql_close($con);
+mysqli_close($con);
 ?>
 </body>
 </html>

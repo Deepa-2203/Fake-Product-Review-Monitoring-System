@@ -10,24 +10,24 @@ $category=$_POST["category"];
 <html>
 <body>
 <?php
-$con = mysql_connect("localhost","root","root");
+$con = mysqli_connect("localhost","root","Deepa@1223");
 if (!$con)
   {
-  die('Could not connect: ' . mysql_error());
+  die('Could not connect: ' . mysqli_error());
   }
 
-mysql_select_db("productrate", $con);
+mysqli_select_db($con,"productrate");
 #get category id
-$cate = mysql_query("SELECT * FROM `category` WHERE `caName`='$category'");
-$row = mysql_fetch_array($cate);
+$cate = mysqli_query("SELECT * FROM `category` WHERE `caName`='$category'");
+$row = mysqli_fetch_array($cate);
 $catID = $row['caID'];
 #get company id
-$company = mysql_query("SELECT * FROM `company` WHERE `aName`='$company'");
-$row3 = mysql_fetch_array($company);
+$company = mysqli_query("SELECT * FROM `company` WHERE `aName`='$company'");
+$row3 = mysqli_fetch_array($company);
 $companyID = $row3['companyID'];
-$result = mysql_query("UPDATE `products` SET `productName`='$mname',`price`='$mdate',`origin`='$md',`mnation`='$nation' WHERE `productID`='$mID'");
-$mcate = mysql_query("UPDATE `mcate` SET `caID`='$catID' WHERE `productID`='$mID'");
-$mcompany = mysql_query("UPDATE `mcompany` SET `companyID`='$companyID' WHERE `productID`='$mID'");
+$result = mysqli_query("UPDATE `products` SET `productName`='$mname',`price`='$mdate',`origin`='$md',`mnation`='$nation' WHERE `productID`='$mID'");
+$mcate = mysqli_query("UPDATE `mcate` SET `caID`='$catID' WHERE `productID`='$mID'");
+$mcompany = mysqli_query("UPDATE `mcompany` SET `companyID`='$companyID' WHERE `productID`='$mID'");
 if($result &&$mcate &&$mcompany)
 {
 	echo "update success!";
@@ -39,7 +39,7 @@ else
 }
  
 
-mysql_close($con)
+mysqli_close($con)
 ?>
 </body>
 </html>
